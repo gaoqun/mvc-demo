@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+
+    <rule>
+        <note>将。html文件访问路径改变为。JSP文件</note>
+    <from>^/res/page/(\w+)\.jsp$</from>
+    <to>/res/html/$1.html</to>
+    </rule>
+
+    <rule>
+        <note></note>
+        <from>^/userInfo/([0-9]+)$</from>
+        <to type="forward">/user/$1</to>
+    </rule>
+
+    <!--<rule>-->
+        <!--<note></note>-->
+        <!--<from>^/user/([0-9]+)$</from>-->
+        <!--<to type="redirect">/user</to>-->
+    <!--</rule>-->
+
+    <!--访问jsp及jspx将不rewrite url,其它.js,.css,.gif等将重写,如 /foo.gif => /res/foo.gif -->
+    <!--<rule>-->
+        <!--<condition operator="notequal" next="and" type="request-uri">.*.jsp</condition>-->
+        <!--<condition operator="notequal" next="and" type="request-uri">.*.jspx</condition>-->
+        <!--<condition operator="notequal" next="and" type="request-uri">.*/user/.*</condition>-->
+        <!--<condition operator="notequal" next="and" type="request-uri">.*/html/.*.html</condition>-->
+        <!--<from>^/res/(\w+)$</from>-->
+        <!--<to>/js/$1.js</to>-->
+    <!--</rule>-->
+</urlrewrite>
