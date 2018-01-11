@@ -89,15 +89,16 @@
     </bean>
 
     <!--统一处理异常-->
-    <bean id="exceptionResolver"
-          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="exceptionMappings">
-            <props>
-                <prop key="java.lang.NullPointerException">outException</prop>
-                <prop key="java.sql.SQLException">outException</prop>
-                <prop key="java.io.IOException">outException</prop>
-            </props>
-        </property>
-    </bean>
+    <!--<bean id="exceptionResolver"-->
+          <!--class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+        <!--<property name="exceptionMappings">-->
+            <!--<props>-->
+                <!--<prop key="java.lang.NullPointerException">outException</prop>-->
+                <!--<prop key="java.sql.SQLException">outException</prop>-->
+                <!--<prop key="java.io.IOException">outException</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <bean id="exceptionHandler" class="com.haha.mvcDemo.common.ExceptionHandler"/>
 
 </beans>
