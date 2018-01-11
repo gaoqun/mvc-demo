@@ -68,7 +68,7 @@ public class Pager<T> {
 		return pageSize;
 	}
 
-	public void setpageSize(int pageSize) {
+	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
 
@@ -100,7 +100,7 @@ public class Pager<T> {
 		return totalRecords;
 	}
 
-	public void settotalRecords(int totalRecords) {
+	public void setTotalRecords(int totalRecords) {
 		this.totalRecords = totalRecords;
 	}
 

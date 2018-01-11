@@ -102,8 +102,8 @@ public class IdaoImpl<T, PK extends Serializable> implements Idao<T, PK> {
             selectKey += "." + funname;
         int totalnum = sqlSession.selectOne(selectKey, maps);
         Pager<T> pager = new Pager<T>();
-        pager.setPagesize(pageSize);
-        pager.setTotalrecords(totalnum);
+        pager.setPageSize(pageSize);
+        pager.setTotalRecords(totalnum);
         pager.setPageIndex(pageNo);
         pager.prePager();
         return pager;
@@ -117,7 +117,7 @@ public class IdaoImpl<T, PK extends Serializable> implements Idao<T, PK> {
                 entityClass.getName() + operate, maps);
         int totalNum = getTotalNum(entityClass, maps, operate);
         pager.setRecords(pageList);
-        pager.setTotalrecords(totalNum);
+        pager.setTotalRecords(totalNum);
         return pager;
     }
 
