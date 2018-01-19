@@ -9,24 +9,24 @@ import org.springframework.stereotype.Repository;
  * Created by gaige on 2018/1/10.
  */
 @Repository
-public class UserMapper implements com.haha.mvcDemo.dao.UserMapper {
+public class UserDaoImpl implements com.haha.mvcDemo.dao.UserMapper {
 
     @Autowired
     SqlSession sqlSession;
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
-        return 0;
+        return sqlSession.delete(User.class.getName() + ".deleteByPrimaryKey", id);
     }
 
     @Override
     public int insert(User record) {
-        return 0;
+        return sqlSession.insert(User.class.getName() + ".insert", record);
     }
 
     @Override
     public int insertSelective(User record) {
-        return 0;
+        return sqlSession.insert(User.class.getName() + ".insertSelective", record);
     }
 
     @Override
@@ -36,11 +36,16 @@ public class UserMapper implements com.haha.mvcDemo.dao.UserMapper {
 
     @Override
     public int updateByPrimaryKeySelective(User record) {
-        return 0;
+        return sqlSession.update(User.class.getName() + ".updateSelective", record);
     }
 
     @Override
     public int updateByPrimaryKey(User record) {
-        return 0;
+        return sqlSession.update(User.class.getName() + "update", record);
+    }
+
+    @Override
+    public User selectByPhoneNumber(String phoneNumber) {
+        return sqlSession.selectOne(User.class.getName()+".selectUserByPhoneNumber",phoneNumber);
     }
 }

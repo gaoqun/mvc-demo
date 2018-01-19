@@ -8,9 +8,10 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="telephone" jdbcType="VARCHAR" property="telephone" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+      <result column="money" jdbcType="DECIMAL" property="money"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_name, pwd, create_time, telephone, nick_name
+    id, user_name, pwd, create_time, telephone, nick_name, money
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -18,32 +19,33 @@
     from h_user_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+    <select id="selectUserByPhoneNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from h_user_info
+        where telephone = #{phoneNumber,jdbcType=VARCHAR} limit 1;
+    </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from h_user_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.haha.mvcDemo.domain.User">
-    insert into h_user_info (id, user_name, pwd, 
-      create_time, telephone, nick_name
-      )
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{telephone,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}
-      )
+    <insert id="insert" parameterType="com.haha.mvcDemo.domain.User" useGeneratedKeys="true" keyProperty="id">
+    insert into h_user_info (user_name, pwd,
+      telephone, nick_name,
+      money)
+    values ( #{userName,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR},
+       #{telephone,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+      #{money,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.haha.mvcDemo.domain.User">
     insert into h_user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userName != null">
         user_name,
       </if>
       <if test="pwd != null">
         pwd,
-      </if>
-      <if test="createTime != null">
-        create_time,
       </if>
       <if test="telephone != null">
         telephone,
@@ -51,19 +53,16 @@
       <if test="nickName != null">
         nick_name,
       </if>
+        <if test="money != null">
+            money,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
       </if>
       <if test="pwd != null">
         #{pwd,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="telephone != null">
         #{telephone,jdbcType=VARCHAR},
@@ -71,6 +70,9 @@
       <if test="nickName != null">
         #{nickName,jdbcType=VARCHAR},
       </if>
+        <if test="money != null">
+            #{money,jdbcType=DECIMAL},
+        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.haha.mvcDemo.domain.User">
@@ -82,15 +84,15 @@
       <if test="pwd != null">
         pwd = #{pwd,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="telephone != null">
         telephone = #{telephone,jdbcType=VARCHAR},
       </if>
       <if test="nickName != null">
         nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
+        <if test="money != null">
+            money = #{money,jdbcType=DECIMAL},
+        </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -98,11 +100,9 @@
     update h_user_info
     set user_name = #{userName,jdbcType=VARCHAR},
       pwd = #{pwd,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       telephone = #{telephone,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR}
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
 </mapper>

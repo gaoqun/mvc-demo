@@ -25,11 +25,6 @@ public class TestController {
         return "index";
     }
 
-    @ResponseBody
-    @RequestMapping("user/{userId}")
-    public UserVo getUserInfo(@PathVariable("userId")String userId){
-        return service.getUserById(userId);
-    }
 
 
     @ResponseBody

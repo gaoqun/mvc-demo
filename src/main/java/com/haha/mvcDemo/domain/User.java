@@ -1,6 +1,7 @@
 package com.haha.mvcDemo.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class User implements Serializable {
@@ -15,6 +16,8 @@ public class User implements Serializable {
     private String telephone;
 
     private String nickName;
+
+    private BigDecimal money;
 
     private static final long serialVersionUID = 1L;
 
@@ -64,5 +67,13 @@ public class User implements Serializable {
 
     public void setNickName(String nickName) {
         this.nickName = nickName == null ? null : nickName.trim();
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 }

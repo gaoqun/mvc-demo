@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haha.mvcDemo.domain.WeChatUser">
+  <resultMap id="BaseResultMap" type="com.haha.mvcDemo.domain.WeChatUser">
+    <id column="open_id" jdbcType="INTEGER" property="openId" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    open_id, union_id, money, username
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from w_user
+    where open_id = #{openId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from w_user
+    where open_id = #{openId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.haha.mvcDemo.domain.WeChatUser" useGeneratedKeys="true" keyProperty="open_id">
+    insert into w_user (open_id, union_id, money, 
+      username)
+    values (#{openId,jdbcType=INTEGER}, #{unionId,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, 
+      #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haha.mvcDemo.domain.WeChatUser">
+    insert into w_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="openId != null">
+        #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haha.mvcDemo.domain.WeChatUser">
+    update w_user
+    <set>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where open_id = #{openId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haha.mvcDemo.domain.WeChatUser">
+    update w_user
+    set union_id = #{unionId,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DECIMAL},
+      username = #{username,jdbcType=VARCHAR}
+    where open_id = #{openId,jdbcType=INTEGER}
+  </update>
+</mapper>
