@@ -1,61 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds">
-    <property name="LOG_HOME" value="/app/logs/"/>
-    <contextName>${app_name}</contextName>
+    <property name="LOG_HOME" value="../logs/mvc_demo"/>
+    <!--<contextName>${app_name}</contextName>-->
 
-    <appender name="userC" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender>
-
-    <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>userLogs/userController.log</file>
-        <append>true</append>
-        <encoder>
-            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-            </pattern>
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
     </appender>
-
-    <appender name="aopLogFile" class="ch.qos.logback.core.FileAppender">
-        <file>aop/log.log</file>
-        <append>true</append>
-        <encoder>
-            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-            </pattern>
+    <!-- 按照每天生成日志文件 -->
+    <appender name="USER_LOG_FILES" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/user_modify.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
+        <!--日志文件最大的大小-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
     </appender>
 
-    <appender name="logAop" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
+    <!--<appender name="aopLogFile" class="ch.qos.logback.core.FileAppender">-->
+        <!--<file>aop/log.log</file>-->
+        <!--<append>true</append>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n-->
+            <!--</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
 
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender>
+    <!--<appender name="logAop" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<encoder>-->
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+        <!--</encoder>-->
 
-    <logger addivility="false" level="INFO" name="loggerAop">
-        <appender-ref ref="logAop"/>
-        <appender-ref ref="aopLogFile"/>
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>INFO</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+    <!--</appender>-->
+
+    <!--<logger addivility="false" level="INFO" name="loggerAop">-->
+        <!--<appender-ref ref="logAop"/>-->
+        <!--<appender-ref ref="aopLogFile"/>-->
+    <!--</logger>-->
+
+    <!--&lt;!&ndash;是否向上级传递&ndash;&gt;-->
+    <!--<logger addivility="false" level="INFO" name="myLogger">-->
+        <!--<appender-ref ref="userC"/>-->
+        <!--<appender-ref ref="file"/>-->
+    <!--</logger>-->
+
+    <logger addivility="true" level="${logger.level}" name="userModify">
+        <appender-ref ref="USER_LOG_FILES"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 
-    <!--是否向上级传递-->
-    <logger addivility="false" level="INFO" name="myLogger">
-        <appender-ref ref="userC"/>
-        <appender-ref ref="file"/>
-    </logger>
-
-    <!--filter the spring etc debug's info-->
-    <logger name="org" level="ERROR"></logger>
+    <!-- 日志输出级别 -->
+    <root level="${root.logger.level}">
+        <appender-ref ref="STDOUT" />
+    </root>
 </configuration>

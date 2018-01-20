@@ -1,6 +1,5 @@
 package com.haha.mvcDemo.service.impl;
 
-import com.haha.mvcDemo.common.BizException;
 import com.haha.mvcDemo.dao.UserMapper;
 import com.haha.mvcDemo.dao.WeChatUserMapper;
 import com.haha.mvcDemo.domain.User;
@@ -24,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private WeChatUserMapper weChatUserMapper;
 
-    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger("userModify");
 
     @Override
     public UserVo getWeChatUserById(UserType userType, String id) {
@@ -57,15 +56,19 @@ public class UserServiceImpl implements UserService {
                 String phoneNumber = userVo.getTelephone();
                 User selectUser = userMapper.selectByPhoneNumber(phoneNumber);
                 if (null!=selectUser){
-                    throw new BizException("添加失败！");
+//                    throw new BizException("添加失败！");
+                    logger.info("用户重复注册！手机号******"+phoneNumber+"************");
+                    logger.debug("用户重复注册！手机号******"+phoneNumber+"************");
+                    id=-1;//重复添加用户
+                }else {
+                    User user = new User();
+                    user.setMoney(userVo.getMoney());
+                    user.setUserName(userVo.getUserName());
+                    user.setNickName(userVo.getNickName());
+                    user.setTelephone(userVo.getTelephone());
+                    user.setPwd("123456");
+                    id = userMapper.insertSelective(user);
                 }
-                User user = new User();
-                user.setMoney(userVo.getMoney());
-                user.setUserName(userVo.getUserName());
-                user.setNickName(userVo.getNickName());
-                user.setTelephone(userVo.getTelephone());
-                user.setPwd("123456");
-                id = userMapper.insertSelective(user);
                 break;
             case WeChatUser:
                 WeChatUser weChatUser = new WeChatUser();
@@ -76,4 +79,5 @@ public class UserServiceImpl implements UserService {
         }
         return id;
     }
+
 }

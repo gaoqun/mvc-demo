@@ -26,7 +26,7 @@ public class JsonResponseWrapper {
             if (e instanceof BizException){
                 response.setStatus(ResponseStatus.BIZ_ERR);
                 response.setMsg(e.getMessage());
-                log.debug(e.getMessage());
+                log.info(e.getMessage());
             }else {
                 String msg = e.getMessage();
                 msg = null!=msg&&!"".equals(msg)?msg:"未知错误！";

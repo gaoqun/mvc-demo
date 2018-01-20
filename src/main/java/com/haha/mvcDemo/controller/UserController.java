@@ -41,10 +41,16 @@ public class UserController {
         userVo.setTelephone("17600228859");
         userVo.setMoney(BigDecimal.valueOf(888.88));
         int id = userService.addUser(UserType.PhoneUser,userVo);
-        if (0>=id){
-            return JsonResponseWrapper.wrapBizException(new BizException("添加用户失败！"));
-        }else {
-            return JsonResponseWrapper.wrapBizSuccess(null,"添加用户成功！");
+        if (0 < id) {
+            return JsonResponseWrapper.wrapBizSuccess(null, "添加用户成功！");
+        } else {
+            BizException bizException = null;
+            switch (id) {
+                case -1:
+                    bizException = new BizException("添加用户失败！");
+                    break;
+            }
+            return JsonResponseWrapper.wrapBizException(bizException);
         }
     }
 
