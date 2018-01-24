@@ -3,9 +3,11 @@ package com.haha.mvcDemo.controller;
 import com.haha.mvcDemo.common.BizException;
 import com.haha.mvcDemo.common.JsonResponse;
 import com.haha.mvcDemo.common.JsonResponseWrapper;
+import com.haha.mvcDemo.domain.User;
 import com.haha.mvcDemo.service.UserService;
 import com.haha.mvcDemo.service.UserType;
 import com.haha.mvcDemo.vo.UserVo;
+import com.sun.org.glassfish.gmbal.ParameterNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,25 +24,33 @@ public class UserController {
     private UserService userService;
 
     @ResponseBody
-    @RequestMapping("/{id}")
-    public JsonResponse getUserInfo(@PathVariable("id")String userId){
-        UserVo userVo = userService.getWeChatUserById(UserType.PhoneUser,userId);
-        if (null==userVo){
+    @RequestMapping("/{type}/{id}")
+    public JsonResponse getUserInfo(@PathVariable("id") String userId, @PathVariable("type") UserType type) {
+        UserVo userVo = null;
+        switch (type) {
+            case PhoneUser:
+                userVo = userService.getWeChatUserById(UserType.PhoneUser, userId);
+                break;
+            case WeChatUser:
+                userVo = userService.getWeChatUserById(UserType.WeChatUser, userId);
+                break;
+        }
+        if (null == userVo) {
             return JsonResponseWrapper.wrapBizException(new BizException("无此用户！"));
-        }else {
-            return JsonResponseWrapper.wrapBizSuccess(userVo,"查询成功！");
+        } else {
+            return JsonResponseWrapper.wrapBizSuccess(userVo, "查询成功！");
         }
     }
 
     @ResponseBody
-    @RequestMapping(value = "add",method = RequestMethod.GET)
-    public JsonResponse addUser(){
+    @RequestMapping(value = "add", method = RequestMethod.GET)
+    public JsonResponse addUser(@RequestParam("type")UserType userType) {
         UserVo userVo = new UserVo();
         userVo.setNickName("gaige");
         userVo.setUserName("高群");
         userVo.setTelephone("17600228859");
         userVo.setMoney(BigDecimal.valueOf(888.88));
-        int id = userService.addUser(UserType.PhoneUser,userVo);
+        int id = userService.addUser(userType, userVo);
         if (0 < id) {
             return JsonResponseWrapper.wrapBizSuccess(null, "添加用户成功！");
         } else {
@@ -53,5 +63,20 @@ public class UserController {
             return JsonResponseWrapper.wrapBizException(bizException);
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value = "combine",method = RequestMethod.GET)
+    public JsonResponse combine(){
+        UserVo userVo = userService.login(1);
+        if (null==userVo){
+            return JsonResponseWrapper.wrapBizException(new BizException("用户在合并啦。。。"));
+        }else {
+            return JsonResponseWrapper.wrapBizSuccess(userVo,"查询用户成功！");
+        }
+    }
+
+
+
+
 
 }

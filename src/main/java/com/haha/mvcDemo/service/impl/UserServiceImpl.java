@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * Created by gaige on 2017/12/8.
  */
@@ -21,6 +24,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
     private WeChatUserMapper weChatUserMapper;
 
     private Logger logger = LoggerFactory.getLogger("userModify");
@@ -58,7 +62,6 @@ public class UserServiceImpl implements UserService {
                 if (null!=selectUser){
 //                    throw new BizException("添加失败！");
                     logger.info("用户重复注册！手机号******"+phoneNumber+"************");
-                    logger.debug("用户重复注册！手机号******"+phoneNumber+"************");
                     id=-1;//重复添加用户
                 }else {
                     User user = new User();
@@ -71,13 +74,57 @@ public class UserServiceImpl implements UserService {
                 }
                 break;
             case WeChatUser:
-                WeChatUser weChatUser = new WeChatUser();
-                weChatUser.setMoney(userVo.getMoney());
-                weChatUser.setUsername(userVo.getUserName());
-                id = weChatUserMapper.insert(weChatUser);
+                //1，测试需要，根据名字查询
+                String weChatUserName = userVo.getUserName();
+                WeChatUser queryWeChatUser = weChatUserMapper.selectByUsername(weChatUserName);
+                if (null!=queryWeChatUser){
+                    logger.info("该微信用户已经注册过 用户名：*********"+weChatUserName+"************");
+                    id = -1;
+                }else {
+                    WeChatUser weChatUser = new WeChatUser();
+                    weChatUser.setMoney(userVo.getMoney());
+                    weChatUser.setOpenId(1);
+                    weChatUser.setUnionId("10001");
+                    weChatUser.setUsername(userVo.getUserName());
+                    id = weChatUserMapper.insert(weChatUser);
+                }
                 break;
         }
         return id;
+    }
+
+    /**
+     * 登录：微信 手机号登录
+     */
+    @Override
+    public UserVo login(int openId) {
+        //微信登录，检测有没有绑定手机号，没有绑定手机号先绑定手机号
+        User user = userMapper.selectByOpenId(openId);
+        if (null!=user){
+            //已经合并
+            UserVo userVo = new UserVo();
+            userVo.setMoney(user.getMoney());
+            userVo.setTelephone(user.getTelephone());
+            return userVo;
+        }else {
+            logger.info("合并******微信/手机号******账号");
+            WeChatUser weChatUser = weChatUserMapper.selectByPrimaryKey(openId);
+            if (weChatUser!=null){
+                user = userMapper.selectByPrimaryKey(2);
+                BigDecimal weChatMoney = weChatUser.getMoney();
+                user.setCombineAccountFlag(1);
+                user.setCombineAccountTime(new Date());
+                BigDecimal phoneUserMoney = user.getMoney();
+                double money1 = phoneUserMoney.add(weChatMoney).doubleValue();
+                logger.info("合并******money="+money1);
+                user.setMoney(new BigDecimal(Double.toString(money1)));
+                user.setOpenId(openId);
+                userMapper.updateByPrimaryKey(user);
+            }
+            return null;
+        }
+
+
     }
 
 }

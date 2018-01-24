@@ -18,11 +18,11 @@
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
     <!--static resouce的访问 js image-->
     <mvc:default-servlet-handler/>
-
-    <mvc:resources mapping="/res/html/**" location="/WEB-INF/pages/"/>
+    <!--<mvc:resources mapping="/error/**" location="/res/errors/"/>-->
     <mvc:resources mapping="/js/**" location="/res/js/"/>
     <mvc:resources mapping="/css/**" location="/res/css/"/>
     <mvc:resources mapping="/font/**" location="/res/font/"/>
+
 
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -96,8 +96,11 @@
                 <!--<prop key="java.lang.NullPointerException">outException</prop>-->
                 <!--<prop key="java.sql.SQLException">outException</prop>-->
                 <!--<prop key="java.io.IOException">outException</prop>-->
+                <!--<prop key="com.haha.mvcDemo.common.BizException">outException</prop>-->
+                <!--<prop key="com.haha.mvcDemo.common.SystemException">outException</prop>-->
             <!--</props>-->
         <!--</property>-->
+
     <!--</bean>-->
     <bean id="exceptionHandler" class="com.haha.mvcDemo.common.ExceptionHandler"/>
 

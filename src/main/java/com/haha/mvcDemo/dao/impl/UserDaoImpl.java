@@ -41,11 +41,16 @@ public class UserDaoImpl implements com.haha.mvcDemo.dao.UserMapper {
 
     @Override
     public int updateByPrimaryKey(User record) {
-        return sqlSession.update(User.class.getName() + "update", record);
+        return sqlSession.update(User.class.getName() + ".updateByPrimaryKey", record);
     }
 
     @Override
     public User selectByPhoneNumber(String phoneNumber) {
         return sqlSession.selectOne(User.class.getName()+".selectUserByPhoneNumber",phoneNumber);
+    }
+
+    @Override
+    public User selectByOpenId(Integer openId) {
+        return sqlSession.selectOne(User.class.getName()+".selectByOpenId",openId);
     }
 }

@@ -11,4 +11,6 @@ public interface UserService {
 
     int addUser(UserType userType,UserVo userVo);
 
+    UserVo login(int openId);
+
 }

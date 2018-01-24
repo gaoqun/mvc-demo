@@ -17,6 +17,7 @@ public class ExceptionHandler implements HandlerExceptionResolver{
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         Map<String,Object> map = new HashMap<>();
         map.put("exception",ex);
+
         if (ex instanceof BizException){
             return new ModelAndView("biz_exception",map);
         }else if (ex instanceof SystemException){

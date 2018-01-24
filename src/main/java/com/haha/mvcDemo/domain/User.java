@@ -1,7 +1,10 @@
 package com.haha.mvcDemo.domain;
 
+import com.haha.mvcDemo.utils.DateUtil;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 
 public class User implements Serializable {
@@ -18,6 +21,36 @@ public class User implements Serializable {
     private String nickName;
 
     private BigDecimal money;
+
+    private Integer openId;
+
+    private Integer combineAccountFlag;
+
+    private String combineAccountTime;
+
+    public String getCombineAccountTime() {
+        return combineAccountTime;
+    }
+
+    public void setCombineAccountTime(Date combineAccountTime) {
+            this.combineAccountTime = DateUtil.f.format(combineAccountTime);
+    }
+
+    public Integer getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(Integer openId) {
+        this.openId = openId;
+    }
+
+    public Integer getCombineAccountFlag() {
+        return combineAccountFlag;
+    }
+
+    public void setCombineAccountFlag(Integer combineAccountFlag) {
+        this.combineAccountFlag = combineAccountFlag;
+    }
 
     private static final long serialVersionUID = 1L;
 

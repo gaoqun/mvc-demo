@@ -32,7 +32,12 @@ public class WeChatUserDaoImpl implements WeChatUserMapper{
 
     @Override
     public WeChatUser selectByPrimaryKey(Integer id) {
-        return sqlSession.selectOne(WeChatUser.class.getName()+".select",id);
+        return sqlSession.selectOne(WeChatUser.class.getName()+".selectByPrimaryKey",id);
+    }
+
+    @Override
+    public WeChatUser selectByUsername(String username) {
+        return sqlSession.selectOne(WeChatUser.class.getName()+".selectByUserName",username);
     }
 
     @Override

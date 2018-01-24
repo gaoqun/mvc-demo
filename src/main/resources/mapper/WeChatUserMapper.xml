@@ -16,6 +16,14 @@
     from w_user
     where open_id = #{openId,jdbcType=INTEGER}
   </select>
+
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from w_user
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from w_user
     where open_id = #{openId,jdbcType=INTEGER}
