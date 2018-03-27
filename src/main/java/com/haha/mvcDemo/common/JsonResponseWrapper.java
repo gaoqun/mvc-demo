@@ -16,12 +16,14 @@ public class JsonResponseWrapper {
         response.setMsg(msg);
         response.setStatus(ResponseStatus.OK);
         response.setCode("200");
+        response.setTime(System.currentTimeMillis());
         return response;
     }
 
     //业务返回异常
     public static JsonResponse wrapBizException(Exception e) {
         JsonResponse response = new JsonResponse();
+        response.setTime(System.currentTimeMillis());
         if (null!=e){
             if (e instanceof BizException){
                 response.setStatus(ResponseStatus.BIZ_ERR);

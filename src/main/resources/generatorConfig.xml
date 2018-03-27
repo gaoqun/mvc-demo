@@ -53,7 +53,13 @@
         <!--selectByExampleQueryId="false">-->
         <!--</table>-->
 
-        <table tableName="w_user" domainObjectName="WeChatUser"
+        <!--<table tableName="w_user" domainObjectName="WeChatUser"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <table tableName="h_commodity" domainObjectName="Commodity"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

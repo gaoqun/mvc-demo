@@ -3,11 +3,9 @@ package com.haha.mvcDemo.controller;
 import com.haha.mvcDemo.common.BizException;
 import com.haha.mvcDemo.common.JsonResponse;
 import com.haha.mvcDemo.common.JsonResponseWrapper;
-import com.haha.mvcDemo.domain.User;
 import com.haha.mvcDemo.service.UserService;
 import com.haha.mvcDemo.service.UserType;
 import com.haha.mvcDemo.vo.UserVo;
-import com.sun.org.glassfish.gmbal.ParameterNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

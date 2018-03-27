@@ -16,6 +16,7 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.haha.mvcDemo.service"/>
     <context:component-scan base-package="com.haha.mvcDemo.dao"/>
+    <context:component-scan base-package="com.haha.mvcDemo.utils"/>
     <!-- 启动AOP支持 -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
@@ -92,7 +93,11 @@
         <property name="queueCapacity" value="100" />
     </bean>
 
+
     <!--引入mq环境-->
     <import resource="mq-context.xml" />
+
+    <!--redis-->
+    <import resource="redis-context.xml" />
 
 </beans>

@@ -17,7 +17,7 @@ import javax.jms.Session;
 
 @Service
 public class SmsProviderService {
-//    @Resource(name = "activeMqJmsTemplate")
+    @Resource(name = "activeMqJmsTemplate")
     @Autowired
     private JmsTemplate jmsTemplate;
 
