@@ -6,11 +6,10 @@ import com.haha.mvcDemo.common.JsonResponseWrapper;
 import com.haha.mvcDemo.common.SystemException;
 import com.haha.mvcDemo.service.MallService;
 import com.haha.mvcDemo.vo.CommodityVo;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +20,7 @@ public class CommodityController {
     @Autowired
     private MallService mallService;
 
+    @ResponseBody
     @RequestMapping("{id}")
     private JsonResponse getCommodity(@PathVariable("id")int id){
         JsonResponse jsonResponse = new JsonResponse();

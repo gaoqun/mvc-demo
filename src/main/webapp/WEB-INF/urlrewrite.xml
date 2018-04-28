@@ -3,7 +3,7 @@
         "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
 
-    <rule>
+    <!--<rule>
         <note>将。html文件访问路径改变为。JSP文件</note>
     <from>^/res/page/(\w+)\.jsp$</from>
     <to>/res/html/$1.html</to>
@@ -13,7 +13,7 @@
         <note></note>
         <from>^/userInfo/([0-9]+)$</from>
         <to type="forward">/user/$1</to>
-    </rule>
+    </rule>-->
 
     <!--<rule>-->
         <!--<note></note>-->
